@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    class Product {
+      constructor() {
+        this.Name;
+        this.Price;
+      }
+    }
+    class Transaction {
+      #cart = [];
+      #total = 0;
+
+      setcart(product) {
+        if (product instanceof Product) this.#cart.push(product);
+      }
+      getcart() {
+        return this.#cart;
+      }
+    }
+
+    let x = 1;
+    let y = 1;
+  </script>
+</html>
