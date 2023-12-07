@@ -116,3 +116,13 @@ console.log(student.getCode());
 
 const employee = new E();
 console.log(employee.getCode());
+
+
+
+registeruser(name,email,password){
+  const cekemail=this.arr.filter((val)=>val.email==email)
+  if(!cekemail/length && email.includes("@") && password !== password.toLowerCase() && password !== password.toUpperCase()){
+      const user= new this(name,email,password)
+      this.arr.push
+  }
+}

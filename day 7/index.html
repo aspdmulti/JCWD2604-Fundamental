@@ -8,24 +8,127 @@
   <body></body>
   <script>
     class Product {
-      constructor() {
-        this.Name;
-        this.Price;
+      constructor(x, y) {
+        this.Name = x;
+        this.Price = y;
+      }
+      getproduct() {
+        return this;
+      }
+      setproduct(x, y) {
+        this.Name = x;
+        this.Price = y;
       }
     }
     class Transaction {
       #cart = [];
       #total = 0;
+      #final = [];
+      #sold = [];
 
-      setcart(product) {
-        if (product instanceof Product) this.#cart.push(product);
+      setcart(product, qty) {
+        if (product instanceof Product) {
+          this.#total += qty * product.Price;
+          const test = this.#cart.filter((str) => str.Name == product.Name);
+          if (!test.length) {
+            const belanjaan = Object.assign(product, { quantity: qty });
+            this.#cart.push(belanjaan);
+          } else {
+            const index = this.#cart.indexOf(product);
+            this.#cart[index].quantity += qty;
+          }
+        }
+      }
+      setfinal() {
+        this.#sold = this.#sold.concat(this.#cart);
+        this.#final = this.#cart;
+        this.#cart = [];
       }
       getcart() {
         return this.#cart;
       }
+      gettotal() {
+        return this.#total;
+      }
+      getfinal() {
+        return this.#final;
+      }
+      getsold() {
+        return this.#sold;
+      }
     }
+    const products = [];
+    let pro;
+    pro = new Product("Aqua", 5000);
+    products.push(pro);
+    pro = new Product("Fruit Tea", 10000);
+    products.push(pro);
+    pro = new Product("Teh Botol", 7000);
+    products.push(pro);
 
-    let x = 1;
-    let y = 1;
+    const init = 1;
+    let x;
+    let y;
+    let uang = 20000;
+    const transaction = new Transaction();
+    let item = "";
+    for (let i = 0; i < products.length; i++) {
+      item += i + 1 + ". " + products[i].Name + " " + products[i].Price + "\n";
+    }
+    while (init == 1) {
+      x = prompt(
+        "masukkan index barang yang anda inginkan (contoh :1) \n" +
+          item +
+          "Saldo GoPay : " +
+          uang
+      );
+      x = parseInt(x);
+      while (x < products.length && x > 0) {
+        y = prompt("masukkan jumlah yang anda inginkan");
+        y = parseInt(y);
+        if (Number.isInteger(y)) {
+          transaction.setcart(products[x - 1], y);
+          x = 0;
+          while (y > 0) {
+            let z = prompt(
+              "Masukkan angka sesuai perintah yang anda inginkan \n 1. Lanjut belanja \n 2. Lihat Keranjang \n 3. Selesai"
+            );
+            if (z == 1) {
+              y = 0;
+              continue;
+            } else if (z == 2) {
+              alert(
+                JSON.stringify(transaction.getcart()) +
+                  "\n Total = " +
+                  JSON.stringify(transaction.gettotal())
+              );
+              continue;
+            } else if (z == 3) {
+              alert(
+                "Berikut adalah barang yang anda beli \n" +
+                  JSON.stringify(transaction.getcart()) +
+                  "\n Total = " +
+                  JSON.stringify(transaction.gettotal()) +
+                  "\n Note : Pembayaran untuk saat ini hanya bisa melalui GoPay"
+              );
+              if (uang > parseInt(transaction.gettotal())) {
+                uang = uang - transaction.gettotal();
+                transaction.setfinal();
+                alert(
+                  "Pembayaran berhasil ! Sisa Saldo GoPay mu adalah :" + uang
+                );
+              } else {
+                ("Maaf, saldo GoPay anda kurang");
+              }
+              y = 0;
+              init = 0;
+            }
+          }
+        } else {
+          alert("masukkan angka dengan benar");
+          continue;
+        }
+      }
+    }
   </script>
 </html>

@@ -58,6 +58,7 @@ function add(arrn, newel) {
 console.log(add([1, 2, 3, 4, 5], 7));
 
 //6
+<<<<<<< Updated upstream
 function sumnih(arr1, arr2) {
   return arr1.concat(arr2).reduce((go, curr) => go + curr);
 }
@@ -117,3 +118,6 @@ function oe(...arr) {
   return arr.map((val) => (val % 2 == 0 ? "genap" : "ganjil"));
 }
 console.log(oe(1, 2, 3, 4));
+=======
+function sumnih(arr1, arr2) {}
+>>>>>>> Stashed changes
